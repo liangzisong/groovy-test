@@ -1,0 +1,76 @@
+group('com.imooc.gradle')
+project.version = '1.0-SNAPSHOT'
+
+
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    sourceCompatibility = 1.8
+}
+
+subprojects {
+    //仓库管理
+    repositories {
+        //先使用本地仓库
+        mavenLocal()
+        //本地仓库没有再使用远程仓库
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'ch.qos.logback:logback-classic:1.2.3'
+        testImplementation group: 'junit', name: 'junit', version: '4.12'
+    }
+}
+
+//修改默认解决策略   默认  jar包依赖有冲突时会使用最新的版本
+configurations.all{
+    resolutionStrategy{
+        failOnVersionConflict()
+        force 'org.slf4j:slf4j-api:1.7.25'
+    }
+}
+
+//仓库管理
+repositories {
+    //先使用本地仓库
+    mavenLocal()
+    //本地仓库没有再使用远程仓库
+    mavenCentral()
+}
+
+dependencies {
+    implementation ('org.hibernate:hibernate-core:3.6.6.Final'){
+        //可以排除传递性依赖 就是不使用这个jar包里面的依赖版本
+        exclude group:'org.slf4j',module:'slf4j-api'
+    }
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+
+//声明闭包  创建文件夹
+def createDir = {
+    path ->
+        File file = new File(path)
+        if (!file.exists())
+            file.mkdirs()
+}
+//声明任务
+task makeJavaDir() {
+    def path = ['src/main/java','src/main/resources','src/test/java','src/test/resources']
+    //之后执行
+    doLast{
+        path.forEach(createDir)
+    }
+}
+
+task makeWebDir() {
+    //引用任务
+    dependsOn("makeJavaDir")
+    def path = ['src/main/webapp','test/main/webapp']
+    //之前执行
+    doFirst {
+        path.forEach(createDir)
+    }
+}
