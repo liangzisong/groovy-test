@@ -1,0 +1,13 @@
+server:
+  port: 7001
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    # no register me
+    register-with-eureka: false
+    # no search me
+    fetch-registry: false
+    service-url:
+      # setting eureka server interactive address
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

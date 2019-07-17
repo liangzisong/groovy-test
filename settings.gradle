@@ -1,5 +1,6 @@
 rootProject.name = 'groovy'
-include 'dao'
-include 'service'
-include 'web'
+include 'api'
+include 'provider-dept-8001'
+include 'consumer-deot-80'
+include 'eureka-7001'
 

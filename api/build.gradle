@@ -1,0 +1,7 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    implementation "org.projectlombok:lombok:${lombok_version}"
+}

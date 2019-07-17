@@ -1,0 +1,11 @@
+plugins {
+    id 'java'
+}
+
+
+dependencies {
+    implementation project (":api")
+    implementation "org.springframework.boot:spring-boot-starter-web:${spring_boot_version}"
+    implementation 'org.springframework.cloud:spring-cloud-dependencies:Dalston.SR1'
+    implementation "org.springframework.boot:spring-boot-dependencies:${spring_boot_version}"
+}
